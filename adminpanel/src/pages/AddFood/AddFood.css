@@ -1,0 +1,13 @@
+
+        .card {
+            border-radius: 10px;
+        }
+        .card-body {
+            padding: 2rem;
+           background-color: #a98cce;
+            border-color: #e85c50;
+        }
+        .card-title {
+            margin-bottom: 1.5rem;
+        }
+       

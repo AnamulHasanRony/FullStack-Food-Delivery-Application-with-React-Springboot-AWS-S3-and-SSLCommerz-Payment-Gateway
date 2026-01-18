@@ -1,0 +1,10 @@
+.body-container{
+    
+  margin-left: 260px;
+  gap: 0px 20px;
+}
+
+.card {
+  width: 17rem;
+  height: 10rem;
+}
