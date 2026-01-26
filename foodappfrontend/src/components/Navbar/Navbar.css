@@ -22,3 +22,7 @@
     -webkit-background-clip: text; /* Clips the background to the shape of the text (for WebKit browsers) */
     background-clip: text; /* Clips the background to the shape of the text */
 }
+
+.dropdown-menu li{
+    cursor: pointer;
+}

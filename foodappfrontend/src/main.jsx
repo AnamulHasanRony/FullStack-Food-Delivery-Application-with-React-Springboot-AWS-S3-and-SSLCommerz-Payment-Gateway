@@ -9,10 +9,10 @@ import {BrowserRouter, HashRouter} from 'react-router-dom'
 import { StoreContextProvider } from './context/StoreContex.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <HashRouter>
+  <BrowserRouter>
     <StoreContextProvider>
       <App/>
     </StoreContextProvider>
-  </HashRouter>
+  </BrowserRouter>
   
 )

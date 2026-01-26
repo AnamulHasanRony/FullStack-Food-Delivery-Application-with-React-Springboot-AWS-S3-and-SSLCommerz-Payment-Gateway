@@ -10,7 +10,7 @@ import PlaceOrder from './pages/PlaceOrder/PlaceOrder';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import { ToastContainer } from 'react-toastify';
-import OrderSuccess from './pages/OrderSuccess/OrderSuccess';
+import OrderHistory from './pages/OrderHistory/OrderHistory';
 
 const App = () => {
   return (
@@ -23,13 +23,11 @@ const App = () => {
         <Route path='/explore' element={<ExploreFood/>}></Route>
         <Route path='/food/:id' element={<FoodDetails/>}></Route>
         <Route path='/cart' element={<Cart/>}></Route>
-        <Route path='/order/success' element={<OrderSuccess/>}></Route>
-        <Route path='/order' element={<PlaceOrder/>}></Route>
+        <Route path='/order/history' element={<OrderHistory/>}></Route>
+        <Route path='/order/placeOrder' element={<PlaceOrder/>}></Route>
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/register' element={<Register/>}></Route>
         <Route path='/' element={<Home/>}></Route>
-        
-
       </Routes>
       
     </div>

@@ -9,7 +9,10 @@ export const StoreContextProvider=(props)=>{
 
     const [foodList,setFoodList]=useState([]);
     const [quantity, setQuantity]=useState([]);
-    const [token,setToken]=useState("");
+    // const [token,setToken]=useState("");
+    const [token, setToken] = useState(
+    () => localStorage.getItem("token") || ""
+  );
     
     const increaseQuantity=async(foodId)=>{
         try {
@@ -20,8 +23,6 @@ export const StoreContextProvider=(props)=>{
         } catch (error) {
             toast.error('addition to cart failed');
         }
-        
-
 
     }
     const decreaseQuantity=async(foodId)=>{
@@ -61,12 +62,13 @@ export const StoreContextProvider=(props)=>{
         } catch (error) {
             toast.error('failed to  get item from cart');
         }
-//         sslCommerz.store.id=mycom696fd1d6c7d22
-// sslCommerz.secret.key=
+
         
         
     }
-   
+        const clearCart = () => {
+        setQuantity({});
+        }
     const contextValue={
        foodList,
        increaseQuantity,
@@ -76,7 +78,9 @@ export const StoreContextProvider=(props)=>{
        removeFoodFromQuantity,
        token,
        setToken,
-       loadCartData
+       loadCartData,
+       clearCart
+
     }
     useEffect(()=>{
         async function loadFoodlist(){
@@ -88,6 +92,7 @@ export const StoreContextProvider=(props)=>{
               await loadCartData(localStorage.getItem("token"));
             }
         } 
+
         loadFoodlist();
     },[])
     return(
