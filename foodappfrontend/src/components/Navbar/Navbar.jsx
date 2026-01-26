@@ -6,10 +6,18 @@ import { StoreContext } from '../../context/StoreContex'
 
 
 const Navbar = () => {
-    const {quantity}=useContext(StoreContext);
+    
+    const {quantity,token,setToken,setQuantity}=useContext(StoreContext);
     const uniqueItems=Object.values(quantity).filter(qty=>qty>0).length;
     const [active,setActive]=useState('home');
     const navigate=useNavigate();
+    const logout=()=>{
+        localStorage.removeItem('token');
+        setToken("");
+        setQuantity({});
+
+        navigate("/");
+    }
   return (
     <div>
 
@@ -39,9 +47,24 @@ const Navbar = () => {
                     <img src={assets.cart} alt="" height={40} width={40} className='position-relative'/>
                     <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">{uniqueItems}</span>
                 </div>
-                </Link>
-                <button className='btn btn-outline-primary' onClick={()=>navigate("/login")}>Login</button>
-                <button className='btn btn-outline-success' onClick={()=>navigate("/register")}>Register</button>
+                </Link>{
+                    !token?
+                    <>
+                      <button className='btn btn-outline-primary' onClick={()=>navigate("/login")}>Login</button>
+                     <button className='btn btn-outline-success' onClick={()=>navigate("/register")}>Register</button>
+                     </>:
+                    <div className='dropdown test-end'>
+                        <a href="" className='d-block link-body-emphasis text-decoration-none dropdown-toggle' data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png" alt="" width={40} height={40} className="rounded-circle"/>
+                            <ul className='dropdown-menu text-small'>
+                                <li className='dropdown-item' onClick={()=>navigate('/order/history')}>orders</li>
+                                <li className='dropdown-item' onClick={logout}>logout</li>
+                                
+                            </ul>
+                        </a>
+                    </div>
+                }
+                
             </div>
             </div>
         </div>
