@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -27,6 +28,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
@@ -38,7 +40,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers("/api/payment/**").permitAll()
-                        .requestMatchers("/api/register", "/api/login","/api/foods").permitAll().anyRequest().authenticated())
+                        .requestMatchers("/api/register", "/api/login","/api/foods/**").permitAll()
+                        .requestMatchers("/api/order/all", "/api/order/update/**").hasRole("ADMIN").anyRequest().authenticated())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
@@ -56,15 +59,15 @@ public class SecurityConfig {
 /// ,
 
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config=new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5177","https://sandbox.sslcommerz.com"));
+        CorsConfiguration config=new CorsConfiguration();//
+        config.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5177","https://sandbox.sslcommerz.com", "http://localhost:80"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
 
 
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource= new UrlBasedCorsConfigurationSource();
-        urlBasedCorsConfigurationSource.registerCorsConfiguration("/api/**", config);
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", config);
 
 
 //        CorsConfiguration paymentConfig = new CorsConfiguration();
