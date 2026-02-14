@@ -1,8 +1,13 @@
 import axios from "axios";
-const API_URL='http://localhost:8080/api';
+const DOMAIN=import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+// const DOMAIN='';
+
+const API_URL=DOMAIN+'/api';
 export const registerUser=async(data)=>{
     try {
             const response=await axios.post(API_URL+'/register', data);
+            console.log(import.meta.env.VITE_API_BASE_URL)
+
             return response;
 
     } catch (error) {

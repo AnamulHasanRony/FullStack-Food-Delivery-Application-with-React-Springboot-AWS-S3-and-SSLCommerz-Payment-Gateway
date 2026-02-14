@@ -7,6 +7,7 @@ import com.example.FoodDeliveryApplicationBackend.service.FoodServiceImplementat
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,6 +25,7 @@ public class FoodController {
 
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public FoodResponse addFood(@RequestPart("food") String foodString,
                                 @RequestPart("file")MultipartFile multipartFile){
 
@@ -41,6 +43,7 @@ public class FoodController {
         return foodResponse;
     }
 
+
     @GetMapping
     public List<FoodResponse> getAllFoods(){
         return foodServiceImplementation.getAllFoods();
@@ -52,6 +55,7 @@ public class FoodController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFoodById(@PathVariable String id){
         foodServiceImplementation.deleteFoodById(id);

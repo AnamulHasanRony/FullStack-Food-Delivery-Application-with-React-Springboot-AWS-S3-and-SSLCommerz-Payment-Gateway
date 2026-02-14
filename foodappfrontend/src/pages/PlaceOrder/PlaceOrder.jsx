@@ -19,6 +19,7 @@ const PlaceOrder = () => {
         const {subTotal,deliveryCharge, tax,  total}=calculateCartItems(cartItems, quantity);
 
 
+
         const [data,setData]=useState({
             customerName:'',
             customerPhoneNo:'',
@@ -28,6 +29,9 @@ const PlaceOrder = () => {
               customerState:'Dhaka'
 
         });
+
+        const {setActive}=useContext(StoreContext);
+            setActive('');
 
         //if tranId is req param
         const navigate = useNavigate();
@@ -163,7 +167,7 @@ const PlaceOrder = () => {
                 <div className="row">
                     <div className="col-md-6 mb-3">
                         <label htmlFor="firstName">Full name</label>
-                        <input type="text" className="form-control" id="firstName" placeholder="Anamul" name="customerName" value={data.customerName}  onChange={onChangeHandler} required=""/>
+                        <input type="text" className="form-control" id="firstName" placeholder="Anamul" name="customerName" value={data.customerName}  onChange={onChangeHandler} required/>
                     </div>
                     
                 </div>
@@ -174,7 +178,7 @@ const PlaceOrder = () => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="address">Address</label>
-                    <input type="text" className="form-control" id="address" placeholder="Holding no. 1284, Kazipara, Mirpur, Dhaka" name="customerAddress" value={data.customerAddress} onChange={onChangeHandler} required=""/>
+                    <input type="text" className="form-control" id="address" placeholder="Holding no. 1284, Kazipara, Mirpur, Dhaka" name="customerAddress" value={data.customerAddress} onChange={onChangeHandler} required/>
                 </div>
                 
                 <div className="row">

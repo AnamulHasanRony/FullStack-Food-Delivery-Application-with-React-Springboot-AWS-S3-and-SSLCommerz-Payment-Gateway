@@ -1,27 +1,32 @@
 
 
-import React from 'react';
+import React, { useContext } from 'react';
 import'./Navbar.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { assets } from '../../assets/assets';
+import { StoreContext } from '../../StoreContext/StoreContext';
 
 const Nav = ({navbarVisible}) => {
+
+    const {token,setToken}=useContext(StoreContext);
+    const navigate=useNavigate();
+    const logout=()=>{
+        localStorage.removeItem('token');
+        setToken("");
+        navigate("/");
+    }
     return (
         
         <div className={`navcontainer ${navbarVisible?'':'d-none'}`}>
-            <nav className="nav">
+            <nav className="nav mt-20">
                 <div className="nav-upper-options">
-
-                    <Link to="/" className='text-black text-decoration-none'>
-                    <div className="nav-option option1">
-                        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
-                            className="nav-img"
-                            alt="dashboard"
-                        />
-                        <h4>Dashboard</h4>
-                        </div>
-                        </Link>
-
+                    <Link to="/add" className='text-black text-decoration-none'>
+                    <div className="option2 nav-option">
+                        
+                        <h4></h4> 
+                    </div>
+                    </Link>
+                                        
 
                     <Link to="/add" className='text-black text-decoration-none'>
                     <div className="option2 nav-option">
@@ -32,6 +37,7 @@ const Nav = ({navbarVisible}) => {
                         <h4>Add Food</h4> 
                     </div>
                     </Link>
+
                     
                     <Link to="/list" className='text-black text-decoration-none'>
                     <div className="nav-option option5">
@@ -59,7 +65,7 @@ const Nav = ({navbarVisible}) => {
                             className="nav-img"
                             alt="logout"
                         />
-                        <h4>Logout</h4>
+                        <h4 onClick={logout}>Logout</h4>
                     </div>
                 </div>
             </nav>

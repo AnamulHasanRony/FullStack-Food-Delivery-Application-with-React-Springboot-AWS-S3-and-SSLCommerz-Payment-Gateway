@@ -12,12 +12,12 @@ font-family: "Poppins", sans-serif;
 --background-color1: #fafaff; 
 --background-color2: #ffffff; 
 --background-color3: #ededed; 
---background-color4: #cad7fda4; 
---primary-color: #4b49ac; 
---secondary-color: #0c007d; 
+--background-color4: #c2c4cca4; 
+--primary-color: #d4d3de; 
+--secondary-color: #9b99a9; 
 --Border-color: #3f0097; 
 --one-use-color: #3f0097; 
---two-use-color: #5500cb; 
+--two-use-color: #c3bfc8; 
 } 
 body { 
 background-color: var(--background-color4)!important; 
@@ -29,9 +29,10 @@ overflow-x: hidden;
 display: flex; 
 width: 100vw; 
 position: relative; 
-top: 70px; 
+top: 20px; 
 z-index: 1; 
 } 
+
 .dpicn { 
 height: 42px; 
 } 
@@ -169,7 +170,7 @@ background-color: rgb(0, 177, 0);
 color: white; 
 border-radius: 4px; 
 }
-/* Responsive CSS Here */
+
 @media screen and (max-width: 950px) { 
     .nav-img { 
         height: 25px; 
@@ -329,4 +330,4 @@ border-radius: 4px;
     .searchbar2 input { 
         width: 180px; 
     } 
-    }
+    }  

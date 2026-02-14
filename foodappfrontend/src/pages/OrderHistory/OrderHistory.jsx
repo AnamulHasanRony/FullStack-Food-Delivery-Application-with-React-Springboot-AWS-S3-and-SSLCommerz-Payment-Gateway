@@ -6,7 +6,8 @@ import'./OrderHistory.css'
 import { getOrderHistory } from '../../service/OrderService';
 
 const OrderHistory = () => {
-    const {token}=useContext(StoreContext);
+    const {token, setActive}=useContext(StoreContext);
+    setActive('');
     const [message,setMessage]=useState("verifying payment..");
 
     const [orderHistoryData, setOrderHistoryData]=useState([]);
@@ -76,7 +77,7 @@ const OrderHistory = () => {
                         <>
                             <td rowSpan={order.orderedItem.length}>৳{order.totalAmount}</td>
                             <td rowSpan={order.orderedItem.length} className={order.paymentStatus === "PAID" ?"text-success fw-bold": (order.paymentStatus === "FAILED" ?"text-danger fw-bold":"text-warning fw-bold")}>{order.paymentStatus}</td>
-                            <td rowSpan={order.orderedItem.length} className={order.orderStatus === "DELIVERED" ? "text-success fw-bold" : (order.orderStatus === "FAILED" ?"text-danger fw-bold":"text-warning fw-bold")}>{order.orderStatus}</td>
+                            <td rowSpan={order.orderedItem.length} className={order.orderStatus === "DELIVERED" ? "text-success fw-bold" : (order.orderStatus === "FAILED" ?"text-danger fw-bold":"text-warning fw-bold")}>{order.orderStatus || "Under Observation"}</td>
                         </>
                     )}
                    

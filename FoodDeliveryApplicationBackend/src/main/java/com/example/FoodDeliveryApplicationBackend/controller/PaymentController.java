@@ -4,13 +4,16 @@ import com.example.FoodDeliveryApplicationBackend.io.OrderResponse;
 import com.example.FoodDeliveryApplicationBackend.service.CartService;
 import com.example.FoodDeliveryApplicationBackend.service.OrderService;
 import com.example.FoodDeliveryApplicationBackend.service.PaymentService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +24,9 @@ public class PaymentController {
     private final OrderService orderService;
     private final CartService cartService;
 
+    @Value("${frontend.base.url}")
+    private  String Frontend_Base_URL;
+
 
 
     public PaymentController(PaymentService paymentService, OrderService orderService, CartService cartService) {
@@ -29,14 +35,18 @@ public class PaymentController {
         this.cartService = cartService;
     }
 
+
+
     @PostMapping("/success")
     public ResponseEntity<String> paymentSuccess(@RequestParam Map<String,String> payload){
         String tranId = payload.get("tran_id");
         String valId = payload.get("val_id");
 
+        System.out.println("orderId : " + tranId + " "+ "varify try");
 
         boolean verified = paymentService.verifyPayment(tranId, valId);
         System.out.println("orderId : " + tranId + " "+ "varified");
+
 
         if (verified) {
 
@@ -46,7 +56,7 @@ public class PaymentController {
         }
 
         String redirectUrl =
-                "http://localhost:5173/order/placeOrder?tranId=" + tranId;
+                Frontend_Base_URL + "/order/placeOrder?tranId=" + tranId;
 
         return ResponseEntity
                 .status(HttpStatus.FOUND)
@@ -89,7 +99,8 @@ public class PaymentController {
         // Update your order status
         orderService.updatePaymentStatus(tranId, "FAILED");
 
-        String frontendUrl = "http://localhost:5173/order/placeOrder?tranId=" + tranId;
+
+        String frontendUrl = Frontend_Base_URL +"/order/placeOrder?tranId=" + tranId;
         return ResponseEntity.status(HttpStatus.FOUND)
                 .header(HttpHeaders.LOCATION, frontendUrl)
                 .build();
@@ -104,7 +115,7 @@ public class PaymentController {
         System.out.println("Payment cancel for transaction: " + tranId + " status: " + status);
         orderService.updatePaymentStatus(tranId, "CANCEL");
 
-        String frontendUrl = "http://localhost:5173/order/placeOrder";
+        String frontendUrl = Frontend_Base_URL + "/order/placeOrder";
         return ResponseEntity.status(HttpStatus.FOUND)
                 .header(HttpHeaders.LOCATION, frontendUrl)
                 .build();

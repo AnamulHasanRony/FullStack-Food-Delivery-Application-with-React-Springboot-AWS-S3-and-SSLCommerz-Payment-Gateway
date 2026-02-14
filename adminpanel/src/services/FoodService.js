@@ -1,13 +1,13 @@
 import axios from "axios";
 const API_URL='http://localhost:8080/api/foods';
 
-export const addFood = async(foodData, image)=>{
+export const addFood = async(foodData, image,token)=>{
         
         const formData=new FormData();
         formData.append('food', JSON.stringify(foodData));
         formData.append('file', image);
         try{
-            const response=await axios.post(API_URL, formData,{headers:{"Content-Type":"multipart/form-data"}});
+            const response=await axios.post(API_URL, formData,{headers:{"Content-Type":"multipart/form-data", "Authorization": `Bearer ${token}`}});
           }
         catch(error){
             console.log(error);
@@ -31,9 +31,9 @@ export const addFood = async(foodData, image)=>{
         
     }
 
-    export const deleteFoodService = async(foodId)=>{
+    export const deleteFoodService = async(foodId, token)=>{
         try{
-            const Response=await axios.delete(API_URL+'/'+foodId);
+            const Response=await axios.delete(API_URL+'/'+foodId, {headers: { Authorization: `Bearer ${token}` }});
             return Response.status==204;
           }
         catch(error){

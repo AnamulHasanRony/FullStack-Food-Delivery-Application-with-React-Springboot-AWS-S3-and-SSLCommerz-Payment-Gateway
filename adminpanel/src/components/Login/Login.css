@@ -1,0 +1,12 @@
+.login-background-div {
+  background-image: url('../../assets/restaurantImage4.jpg');
+  height: 100vh !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.login-card {
+  width: 100rem !important;
+  color: aliceblue !important;
+  height: 10rem;
+}

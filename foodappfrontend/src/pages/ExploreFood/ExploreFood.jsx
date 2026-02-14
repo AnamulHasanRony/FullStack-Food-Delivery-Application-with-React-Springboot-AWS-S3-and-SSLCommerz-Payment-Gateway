@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import FoodDisplay from '../../components/FoodDisplay/FoodDisplay'
+import { StoreContext } from '../../context/StoreContex';
 
 const ExploreFood = () => {
+  const {setActive}=useContext(StoreContext);
+      setActive('explore');
   const [category,setCategory]=useState('All');
   const [searchText,setSearchText]=useState('');
   return (

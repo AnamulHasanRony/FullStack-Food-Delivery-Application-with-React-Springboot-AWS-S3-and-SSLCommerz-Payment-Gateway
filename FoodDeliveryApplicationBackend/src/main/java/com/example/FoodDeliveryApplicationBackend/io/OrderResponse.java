@@ -11,6 +11,7 @@ public class OrderResponse {
 
     private String id;
     private String userId;
+    private List<OrderItem> orderedItem;
     private String paymentStatus;
     private String customerName;
     private String customerPhoneNo;
@@ -19,6 +20,7 @@ public class OrderResponse {
     private String customerCity;
     private String customerState;
     private  String orderStatus;
+    private double totalAmount;
 
 
 }

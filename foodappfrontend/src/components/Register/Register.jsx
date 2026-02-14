@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './Register.css'
 import axios from 'axios';
 import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../../service/AuthService';
+import { StoreContext } from '../../context/StoreContex';
 
 const Register = () => {
+    const {setActive}=useContext(StoreContext);
+    setActive('register');
 
     const[data,setData]=useState(
         {
@@ -68,7 +71,7 @@ const Register = () => {
                         <button type="submit" className="btn btn-dark btn-lg">Sign up</button>
                     </div>
                     <p className="text-center text-muted mt-4">Already have an accoun?
-                        <a href="#!" className="text-decoration-none">Log in</a>.
+                        <Link className="text-decoration-none" to="/login">Log in</Link>.
                     </p>
                 </form>
             </div>

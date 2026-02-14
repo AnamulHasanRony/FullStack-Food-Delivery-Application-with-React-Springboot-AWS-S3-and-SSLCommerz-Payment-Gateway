@@ -9,6 +9,7 @@ export const StoreContextProvider=(props)=>{
 
     const [foodList,setFoodList]=useState([]);
     const [quantity, setQuantity]=useState([]);
+    const [active,setActive]=useState('');
     // const [token,setToken]=useState("");
     const [token, setToken] = useState(
     () => localStorage.getItem("token") || ""
@@ -21,7 +22,7 @@ export const StoreContextProvider=(props)=>{
             setQuantity((prev)=>({...prev, [foodId]: (prev[foodId]||0)+1}));
 
         } catch (error) {
-            toast.error('addition to cart failed');
+            toast.error('addition to cart failed, please login for adding to cart');
         }
 
     }
@@ -79,7 +80,9 @@ export const StoreContextProvider=(props)=>{
        token,
        setToken,
        loadCartData,
-       clearCart
+       clearCart,
+       active,
+       setActive
 
     }
     useEffect(()=>{

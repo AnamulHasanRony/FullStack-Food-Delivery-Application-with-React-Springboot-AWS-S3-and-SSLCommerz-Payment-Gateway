@@ -5,6 +5,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { calculateCartItems } from '../../Utils/CartUtils';
 
 const Cart = () => {
+
+    const {setActive}=useContext(StoreContext);
+        setActive('');
+
     const {foodList, increaseQuantity, decreaseQuantity, quantity,removeFoodFromQuantity}=useContext(StoreContext);
     const cartItems= foodList.filter(food=>quantity[food.id]>0);
 

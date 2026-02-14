@@ -1,5 +1,7 @@
 import axios from "axios";
-const API_URL='http://localhost:8080/api/cart';
+const DOMAIN=import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+// const DOMAIN='';
+const API_URL=DOMAIN+'/api/cart';
 
 export const addToCart=async(foodId, token)=>{
     try {

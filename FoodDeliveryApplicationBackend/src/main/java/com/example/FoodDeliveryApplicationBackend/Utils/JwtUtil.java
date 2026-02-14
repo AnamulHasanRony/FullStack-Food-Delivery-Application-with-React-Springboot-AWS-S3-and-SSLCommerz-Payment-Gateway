@@ -22,17 +22,19 @@ public class JwtUtil {
     @Value("${jwt.secret.key}")
     private String SECRET_KEY;
 
-    public String generateToken(UserDetails userDetails){
+    public String generateToken(UserDetails userDetails, String role){
         Map<String,Object> claims=new HashMap<>();
+        claims.put("role", role);
         return createToken(claims, userDetails.getUsername());
         
     }
 
     private String createToken(Map<String, Object> claims, String username) {
         return Jwts.builder()
+                .claims(claims)
                 .subject(username)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 120))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60* 4))
                 .signWith(getSigningKey()) // SecretKey
                 .compact();
 
@@ -45,6 +47,9 @@ public class JwtUtil {
 
     public String extractUsername(String token) {
         return extractAllClaims(token).getSubject();
+    }
+    public String extractRole(String token){
+        return extractAllClaims(token).get("role", String.class);
     }
 
     public Date extractExpiration(String token) {

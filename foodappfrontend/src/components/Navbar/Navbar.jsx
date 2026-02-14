@@ -7,9 +7,8 @@ import { StoreContext } from '../../context/StoreContex'
 
 const Navbar = () => {
     
-    const {quantity,token,setToken,setQuantity}=useContext(StoreContext);
+    const {quantity,token,setToken,setQuantity,active, setActive}=useContext(StoreContext);
     const uniqueItems=Object.values(quantity).filter(qty=>qty>0).length;
-    const [active,setActive]=useState('home');
     const navigate=useNavigate();
     const logout=()=>{
         localStorage.removeItem('token');

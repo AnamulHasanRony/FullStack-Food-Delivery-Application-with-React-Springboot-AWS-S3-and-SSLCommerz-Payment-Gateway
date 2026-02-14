@@ -1,10 +1,20 @@
 //Header.js
 
-import React from 'react';
+import React, { useContext } from 'react';
 import './Header.css'
 import { assets } from '../../assets/assets';
+import { StoreContext } from '../../StoreContext/StoreContext';
+import { useNavigate } from 'react-router-dom';
 
 const Header = ({toggleNavbarVisible}) => {
+
+     const {token,setToken}=useContext(StoreContext);
+    const navigate=useNavigate();
+    const logout=()=>{
+        localStorage.removeItem('token');
+        setToken("");
+        navigate("/");
+    }
     return (
         <header>
             <div className="logosec">
@@ -22,30 +32,24 @@ const Header = ({toggleNavbarVisible}) => {
                     </button>
             </div>
 
-
             
 
-            <div className="searchbar">
-                <input type="text"
-                    placeholder="Search" />
-                <div className="searchbtn">
-                    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
-                        className="icn srchicn"
-                        alt="search-icon" />
-                </div>
-            </div>
-
-            <div className="message">
-                <div className="circle"></div>
-                <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png"
-                    className="icn"
-                    alt="" />
-                <div className="dp">
-                    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png"
-                        className="dpicn"
-                        alt="dp" />
-                </div>
-            </div>
+            {
+                    !token?
+                    <>
+                      <button className='btn btn-outline-primary' onClick={()=>navigate("/login")}>Login</button>
+                     </>:
+                    <div className='dropdown test-end'>
+                        <a href="" className='d-block link-body-emphasis text-decoration-none dropdown-toggle' data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png" alt="" width={40} height={40} className="rounded-circle"/>
+                            <ul className='dropdown-menu text-small'>
+                                <li className='dropdown-item' onClick={()=>navigate('/order')}>orders</li>
+                                <li className='dropdown-item' onClick={logout}>logout</li>
+                                
+                            </ul>
+                        </a>
+                    </div>
+                }
 
         </header>
     );

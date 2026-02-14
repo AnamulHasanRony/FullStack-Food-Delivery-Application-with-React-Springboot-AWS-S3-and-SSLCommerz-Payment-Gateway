@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './AddFood.css'
 import '../../assets/assets'
 import { assets } from '../../assets/assets'
@@ -6,7 +6,10 @@ import axios from 'axios'
 import { addFood } from '../../services/FoodService'
 import { toast } from 'react-toastify'
 import { Await } from 'react-router-dom'
+import { StoreContext } from '../../StoreContext/StoreContext'
 const AddFood = () => {
+
+    const{token}=useContext(StoreContext);
     const [image, setImage]=useState(false);
     const [data, setData]=useState({
         name:'',
@@ -29,10 +32,17 @@ const AddFood = () => {
         }
 
         try {
-            await addFood(data,image);
+            const res=await addFood(data,image,token);
+
+            if(res===201 || res===200){
             toast.success('food added successfully');
             setData({name:'',description:'',category:'Fast Food', price:''});
             setImage(null);
+            }
+            else{
+                toast.error('error while adding food');
+            }
+            
         } catch (error) {
             toast.error('error while adding food');
             
@@ -44,9 +54,9 @@ const AddFood = () => {
 
   return (
       
-      <div className="container mt-5">
+      <div className="container-fluid  mt-5">
         <div className="row justify-content-center">
-            <div className="col-lg-6 col-md-8 col-sm-12">
+            <div className="col-lg-6 col-md-8 col-sm-12 mx-auto">
                 <div className="card shadow-lg">
                     <div className="card-body">
                         <h3 className="card-title text-center mb-4">Add Food</h3>

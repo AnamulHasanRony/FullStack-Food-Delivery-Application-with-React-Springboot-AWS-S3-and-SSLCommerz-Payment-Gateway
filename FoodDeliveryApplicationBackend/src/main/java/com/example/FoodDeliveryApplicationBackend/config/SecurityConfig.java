@@ -3,6 +3,8 @@ package com.example.FoodDeliveryApplicationBackend.config;
 import com.example.FoodDeliveryApplicationBackend.filter.JwtFilter;
 import com.example.FoodDeliveryApplicationBackend.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,20 +29,28 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtFilter jwtFilter;
+
+    @Value("${frontend.base.url}")
+    private String frontendBaseUrl;
+
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtFilter jwtFilter) {
+        this.customUserDetailsService = customUserDetailsService;
+        this.jwtFilter = jwtFilter;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity){
 //,
         httpSecurity.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth->auth
-                        .requestMatchers("/api/payment/**").permitAll()
-                        .requestMatchers("/api/register", "/api/login","/api/foods/**").permitAll()
+                        .requestMatchers("/api/payment/**", "/api/ping").permitAll()
+                        .requestMatchers("/api/register", "/api/login","/api/foods/**","/api/contactUs").permitAll()
                         .requestMatchers("/api/order/all", "/api/order/update/**").hasRole("ADMIN").anyRequest().authenticated())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -52,15 +62,16 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public CorsFilter corsFilter(CorsConfigurationSource corsConfigurationSource){
-        return new CorsFilter(corsConfigurationSource());
-    }
+//    @Bean
+//    public CorsFilter corsFilter(CorsConfigurationSource corsConfigurationSource){
+//        return new CorsFilter(corsConfigurationSource());
+//    }
 /// ,
 
+    @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config=new CorsConfiguration();//
-        config.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5177","https://sandbox.sslcommerz.com", "http://localhost:80"));
+        config.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5177","https://sandbox.sslcommerz.com", "http://localhost:80", frontendBaseUrl));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
@@ -70,12 +81,13 @@ public class SecurityConfig {
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", config);
 
 
-//        CorsConfiguration paymentConfig = new CorsConfiguration();
+        CorsConfiguration paymentConfig = new CorsConfiguration();
 //        paymentConfig.setAllowedOrigins(List.of("*"));
-//        paymentConfig.setAllowedMethods(List.of("POST","GET"));
-//        paymentConfig.setAllowedHeaders(List.of("*"));
-//        paymentConfig.setAllowCredentials(false);
-//        urlBasedCorsConfigurationSource.registerCorsConfiguration("/api/payment/**", paymentConfig);
+        paymentConfig.setAllowedOriginPatterns(List.of("*"));
+        paymentConfig.setAllowedMethods(List.of("POST","GET"));
+        paymentConfig.setAllowedHeaders(List.of("*"));
+        paymentConfig.setAllowCredentials(false);
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/api/payment/**", paymentConfig);
         return urlBasedCorsConfigurationSource;
 
 

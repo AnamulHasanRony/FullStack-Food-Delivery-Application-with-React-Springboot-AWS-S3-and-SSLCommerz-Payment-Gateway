@@ -3,8 +3,8 @@
             border-radius: 10px;
         }
         .card-body {
-            padding: 2rem;
-           background-color: #a98cce;
+            padding: 2rem !important;
+           background-color: #eeedef !important;
             border-color: #e85c50;
         }
         .card-title {

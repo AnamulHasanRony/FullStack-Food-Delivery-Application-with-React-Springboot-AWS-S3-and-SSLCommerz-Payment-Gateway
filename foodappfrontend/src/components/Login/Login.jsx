@@ -1,11 +1,15 @@
 import React, { useContext, useState } from 'react'
 import './Login.css'
 import { loginUser } from '../../service/AuthService'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { StoreContext } from '../../context/StoreContex'
 
 const Login = () => {
+
+    const {setActive}=useContext(StoreContext);
+        setActive('register');
+
     const {setToken,loadCartData}=useContext(StoreContext);
     const [data,setData]=useState(
         {
@@ -66,7 +70,7 @@ const Login = () => {
                         <button type="submit" className="btn btn-dark btn-lg">Log in</button>
                     </div>
                     <p className="text-center text-muted mt-4">Don't have an account yet?
-                        <a href="#!" className="text-decoration-none">Sign up</a>.
+                        <Link  className="text-decoration-none" to="/register">Sign up</Link>.
                     </p>
                 </form>
             </div>

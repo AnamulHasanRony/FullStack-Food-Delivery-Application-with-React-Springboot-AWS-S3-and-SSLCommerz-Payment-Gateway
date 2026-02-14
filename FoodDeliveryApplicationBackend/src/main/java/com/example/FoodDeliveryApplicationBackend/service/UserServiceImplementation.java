@@ -31,7 +31,9 @@ public class UserServiceImplementation implements  UserService{
                     "Invalid input data"
             );
         }
+        newUserEntity.setRole("ROLE_USER");
         newUserEntity=userRepository.save(newUserEntity);
+
         return convertToRegisterResponse(newUserEntity);
 
     }

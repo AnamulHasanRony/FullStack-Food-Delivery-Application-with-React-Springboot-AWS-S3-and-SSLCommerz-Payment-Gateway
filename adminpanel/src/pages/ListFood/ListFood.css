@@ -1,10 +1,27 @@
 .body-container{
     
-  margin-left: 280px;
-  gap: 0px 20px;
+  margin-left: 280px !important;
+  margin-top: 30px !important;
+  /* flex-direction: column !important; */
+  display: flex;
+  flex-wrap: wrap;
+   gap: 0px 0px
+
 }
 
 .card {
-  width: 17rem;
-  height: 10rem;
+    width: 100%;      /* Let the Bootstrap column control the width */
+    height: auto;     /* Let the card grow with content */
+    display: flex;    /* Optional: keep flex layout if needed inside card */
+    flex-direction: column; /* Optional: stack content vertically */
 }
+
+.body-container .card {
+  flex: 1 1 200px;  /* grow, shrink, base width */
+  max-width: 250px; /* optional: max size */
+  height: 10rem;    /* keep your desired height */
+        /* text color */
+  margin-bottom: 5px;
+  margin-top: 5px; /* space between rows */
+}
+

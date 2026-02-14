@@ -26,8 +26,11 @@ public class AuthenticationController {
     public AuthenticationResponse login(@RequestBody AuthenticationRequest authenticationRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()));
         final UserDetails userDetails = customUserDetailsService.loadUserByUsername(authenticationRequest.getEmail());
-        final String jwtToken = jwtUtil.generateToken(userDetails);
-        return new AuthenticationResponse(authenticationRequest.getEmail(), jwtToken);
+
+        final String role = userDetails.getAuthorities().stream().findFirst().get().getAuthority();///
+        final String jwtToken = jwtUtil.generateToken(userDetails,role);
+
+        return new AuthenticationResponse(authenticationRequest.getEmail(), jwtToken, role);
     }
 
 }

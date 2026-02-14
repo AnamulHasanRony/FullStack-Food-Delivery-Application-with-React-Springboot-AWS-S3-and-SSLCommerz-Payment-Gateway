@@ -17,8 +17,8 @@ public class SslCommerzClient {
 
         @Value("${sslCommerz.secret.key}")
         private String storePassword;
-        @Value("${sslcommerz.public.to.local.bypass.url}")
-        private String sslCommerzPublicToLocalBypassUrl;
+        @Value("${backend.base.url}")
+        private String BACKEND_BASE_URL;
 
         private static final String SANDBOX_URL =
                 "https://sandbox.sslcommerz.com/gwprocess/v4/api.php";
@@ -31,10 +31,10 @@ public class SslCommerzClient {
 
             params.put("store_id", storeId);
             params.put("store_passwd", storePassword);
-            params.put("success_url", sslCommerzPublicToLocalBypassUrl+"/api/payment/success");
-            params.put("fail_url",sslCommerzPublicToLocalBypassUrl+"/api/payment/fail" );
-            params.put("cancel_url", sslCommerzPublicToLocalBypassUrl+"/api/payment/cancel");
-            params.put("ipn_url", sslCommerzPublicToLocalBypassUrl+"/api/payment/ipn");
+            params.put("success_url", BACKEND_BASE_URL+"/api/payment/success");
+            params.put("fail_url",BACKEND_BASE_URL+"/api/payment/fail" );
+            params.put("cancel_url", BACKEND_BASE_URL+"/api/payment/cancel");
+            params.put("ipn_url", BACKEND_BASE_URL+"/api/payment/ipn");
 
 
         RestTemplate restTemplate = new RestTemplate();

@@ -1,0 +1,103 @@
+# services:
+#   mongodb:
+#     image: mongo:7.0
+#     container_name: food-mongodb
+#     restart: unless-stopped
+#     ports:
+#       - "27017:27017"
+#     environment:
+#       MONGO_INITDB_ROOT_USERNAME: root
+#       MONGO_INITDB_ROOT_PASSWORD: toor
+#       MONGO_INITDB_DATABASE: food_delivery_application
+#     volumes:
+#       - mongo-data:/data/db
+
+#     healthcheck:
+#       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 5
+#       start_period: 30s
+
+#   backend:
+#     image: mdanamulhasanrony/food-delivery-app-backend
+#     container_name: food-delivery-app-backend
+#     restart: unless-stopped
+#     ports:
+#       - "8080:8080"
+
+#     environment:
+#       SPRING_DATA_MONGODB_URI: "mongodb://root:toor@mongodb:27017/food_delivery_application?authSource=admin"
+
+#       JWT_SECRET_KEY: ${JWT_SECRET_KEY:-498502c0fe7d53807379353f7cb75de227f635981762319b39a2aab6cf92a995}
+#       AWS_ACCESS_KEY: ${AWS_ACCESS_KEY:-dummy-key}
+#       AWS_SECRET_KEY: ${AWS_SECRET_KEY:-dummy-secret}
+#       AWS_REGION: us-east-1
+#       AWS_BUCKETNAME: test-bucket-rony
+#       SSLCOMMERZ_STORE_ID: ${SSLCOMMERZ_STORE_ID:-mycom696fd1d6c7d22}
+#       SSLCOMMERZ_SECRET_KEY: ${SSLCOMMERZ_SECRET_KEY:-mycom696fd1d6c7d22@ssl}
+#       SSLCOMMERZ_CALLBACK_URL: ${SSLCOMMERZ_CALLBACK_URL:-http://localhost:8080/api/payment/callback}
+
+#     depends_on:
+#       mongodb:
+#         condition: service_healthy
+
+#   frontend:
+#     image: mdanamulhasanrony/food-delivery-app-frontend
+#     container_name: food-delivery-app-frontend
+#     restart: unless-stopped
+#     ports:
+#       - "80:80"
+#     environment:
+#       VITE_API_BASE_URL: http://backend:8080
+#     depends_on:
+#       - backend
+
+# volumes:
+#   mongo-data:
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: food-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor
+      MONGO_INITDB_DATABASE: food_delivery_application
+    volumes:
+      - mongo-data:/data/db
+
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  backend:
+    image: mdanamulhasanrony/food-delivery-app-backend
+    container_name: food-delivery-app-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+
+    environment:
+      SPRING_DATA_MONGODB_URI: "mongodb://root:toor@mongodb:27017/food_delivery_application?authSource=admin"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  frontend:
+    image: mdanamulhasanrony/food-delivery-app-frontend
+    container_name: food-delivery-app-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:

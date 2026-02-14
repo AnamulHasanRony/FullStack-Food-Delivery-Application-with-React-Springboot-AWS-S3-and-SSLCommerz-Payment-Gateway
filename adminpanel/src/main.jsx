@@ -6,10 +6,13 @@ import 'bootstrap/dist/js/bootstrap.bundle.js'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './index.css'
 import './assets/assets.js'
+import { StoreContextProvider } from './StoreContext/StoreContext.jsx';
 
 
 createRoot(document.getElementById('root')).render(
+    <StoreContextProvider>
     <BrowserRouter>
     <App />
     </BrowserRouter>
+     </StoreContextProvider>
 )
